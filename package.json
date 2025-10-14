@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@netlify/blobs": "^10.1.0",
     "@remix-run/dom": "jam",
     "@remix-run/events": "jam",
     "@remix-run/fetch-router": "latest",
