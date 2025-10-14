@@ -5,11 +5,11 @@
   "dependencies": {
     "@remix-run/dom": "jam",
     "@remix-run/events": "jam",
-    "@remix-run/fetch-router": "workspace:*",
-    "@remix-run/file-storage": "workspace:*",
-    "@remix-run/headers": "workspace:*",
-    "@remix-run/lazy-file": "workspace:*",
-    "@remix-run/node-fetch-server": "workspace:*"
+    "@remix-run/fetch-router": "latest",
+    "@remix-run/file-storage": "latest",
+    "@remix-run/headers": "latest",
+    "@remix-run/lazy-file": "latest",
+    "@remix-run/node-fetch-server": "latest"
   },
   "devDependencies": {
     "@types/node": "^24.6.0",
