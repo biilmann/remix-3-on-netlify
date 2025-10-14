@@ -1,5 +1,5 @@
 import type { FileUpload } from "@remix-run/fetch-router";
-import { NetlifyBlobStorage } from "./netlify-blob-storage";
+import { NetlifyBlobStorage } from "./netlify-blob-storage.ts";
 
 /**
  * Get the appropriate storage backend based on the environment.
