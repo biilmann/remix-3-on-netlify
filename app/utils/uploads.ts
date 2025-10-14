@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url";
 import type { FileUpload } from "@remix-run/fetch-router";
 import { LocalFileStorage } from "@remix-run/file-storage/local";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+__dirname ??= dirname(fileURLToPath(import.meta.url));
 
 export const uploadsStorage = new LocalFileStorage(
   resolve(__dirname, "..", "..", "tmp", "uploads"),
