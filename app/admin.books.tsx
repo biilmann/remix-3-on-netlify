@@ -1,5 +1,6 @@
 import type { RouteHandlers } from '@remix-run/fetch-router'
 import { redirect } from '@remix-run/fetch-router'
+import { purgeCache } from '@netlify/functions'
 
 import { routes } from '../routes.ts'
 import { getAllBooks, getBookById, createBook, updateBook, deleteBook } from './models/books.ts'
@@ -232,7 +233,7 @@ export default {
   },
 
   async create({ formData }) {
-    createBook({
+    const newBook = createBook({
       slug: formData.get('slug')?.toString() ?? '',
       title: formData.get('title')?.toString() ?? '',
       author: formData.get('author')?.toString() ?? '',
@@ -244,6 +245,16 @@ export default {
       isbn: formData.get('isbn')?.toString() ?? '',
       publishedYear: parseInt(formData.get('publishedYear')?.toString() ?? '2024', 10),
       inStock: formData.get('inStock')?.toString() === 'true',
+    })
+
+    await purgeCache({
+      tags: [
+        'book-list',
+        `book-${newBook.slug}`,
+        `genre-${newBook.genre}`,
+        'search',
+        'fragments',
+      ],
     })
 
     return redirect(routes.admin.books.index)
@@ -380,11 +391,11 @@ export default {
       return new Response('Book not found', { status: 404 })
     }
 
-    // The uploadHandler automatically saves the file and returns the URL path
-    // If no file was uploaded, the form field will be empty and we keep the existing coverUrl
     let coverUrl = formData.get('cover')?.toString() || book.coverUrl
+    const oldSlug = book.slug
+    const oldGenre = book.genre
 
-    updateBook(params.bookId, {
+    const updatedBook = updateBook(params.bookId, {
       slug: formData.get('slug')?.toString() ?? '',
       title: formData.get('title')?.toString() ?? '',
       author: formData.get('author')?.toString() ?? '',
@@ -397,11 +408,38 @@ export default {
       inStock: formData.get('inStock')?.toString() === 'true',
     })
 
+    await purgeCache({
+      tags: [
+        'book-list',
+        `book-${oldSlug}`,
+        `book-${updatedBook.slug}`,
+        'book-detail',
+        `genre-${oldGenre}`,
+        `genre-${updatedBook.genre}`,
+        'search',
+        'fragments',
+      ],
+    })
+
     return redirect(routes.admin.books.index)
   },
 
-  destroy({ params }) {
-    deleteBook(params.bookId)
+  async destroy({ params }) {
+    const book = getBookById(params.bookId)
+    if (book) {
+      deleteBook(params.bookId)
+
+      await purgeCache({
+        tags: [
+          'book-list',
+          `book-${book.slug}`,
+          'book-detail',
+          `genre-${book.genre}`,
+          'search',
+          'fragments',
+        ],
+      })
+    }
 
     return redirect(routes.admin.books.index)
   },
