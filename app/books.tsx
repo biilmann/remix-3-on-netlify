@@ -54,6 +54,13 @@ export default {
             ))}
           </div>
         </Layout>,
+        {
+          headers: {
+            'Netlify-CDN-Cache-Control': 'public, s-maxage=600, stale-while-revalidate=3600',
+            'Cache-Tag': 'books, book-list',
+            'Netlify-Vary': 'cookie=auth_token',
+          },
+        },
       )
     },
 
@@ -96,6 +103,13 @@ export default {
             ))}
           </div>
         </Layout>,
+        {
+          headers: {
+            'Netlify-CDN-Cache-Control': 'public, s-maxage=600, stale-while-revalidate=3600',
+            'Cache-Tag': `books, book-list, genre-${genre}`,
+            'Netlify-Vary': 'cookie=auth_token',
+          },
+        },
       )
     },
 
@@ -184,6 +198,13 @@ export default {
             </div>
           </div>
         </Layout>,
+        {
+          headers: {
+            'Netlify-CDN-Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=7200',
+            'Cache-Tag': `books, book-detail, book-${params.slug}`,
+            'Netlify-Vary': 'cookie=auth_token',
+          },
+        },
       )
     },
   },

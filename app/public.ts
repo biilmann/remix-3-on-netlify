@@ -22,7 +22,8 @@ function serveFile(filename: string): Response {
 
     return new Response(file, {
       headers: {
-        'Cache-Control': 'no-store, must-revalidate',
+        'Netlify-CDN-Cache-Control': 'public, max-age=31536000, immutable',
+        'Cache-Tag': 'static-assets',
         'Content-Type': file.type,
       },
     })

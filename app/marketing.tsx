@@ -33,6 +33,13 @@ export let home: InferRouteHandler<typeof routes.home> = {
           <Frame src={routes.fragments.bookCard.href({ slug: 'three-ways' })} />
         </div>
       </Layout>,
+      {
+        headers: {
+          'Netlify-CDN-Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+          'Cache-Tag': 'marketing, homepage',
+          'Netlify-Vary': 'cookie=auth_token',
+        },
+      },
     )
   },
 }
@@ -94,6 +101,13 @@ export let about: InferRouteHandler<typeof routes.about> = {
           </p>
         </div>
       </Layout>,
+      {
+        headers: {
+          'Netlify-CDN-Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+          'Cache-Tag': 'marketing, about-page',
+          'Netlify-Vary': 'cookie=auth_token',
+        },
+      },
     )
   },
 }
@@ -130,6 +144,13 @@ export let contact: RouteHandlers<typeof routes.contact> = {
             </form>
           </div>
         </Layout>,
+        {
+          headers: {
+            'Netlify-CDN-Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+            'Cache-Tag': 'marketing, contact-page',
+            'Netlify-Vary': 'cookie=auth_token',
+          },
+        },
       )
     },
 
@@ -192,6 +213,13 @@ export let search: InferRouteHandler<typeof routes.search> = {
           )}
         </div>
       </Layout>,
+      {
+        headers: {
+          'Netlify-CDN-Cache-Control': 'public, s-maxage=300, stale-while-revalidate=1800',
+          'Cache-Tag': 'search, books',
+          'Netlify-Vary': 'query=q, cookie=auth_token',
+        },
+      },
     )
   },
 }
